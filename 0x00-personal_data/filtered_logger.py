@@ -4,6 +4,19 @@ from typing import (List, Mapping, Tuple)
 import re
 import logging
 import time
+import csv
+import sys
+
+
+with open('user_data.csv') as csfile:
+    csvreader = csv.reader(csfile)
+    fields = next(csvreader)
+
+
+fields.remove('name')
+fields.remove('last_login')
+fields.remove('user_agent')
+PII_FIELDS = tuple(fields)
 
 
 def filter_datum(
@@ -41,3 +54,12 @@ class RedactingFormatter(logging.Formatter):
             )
         formatted_msg = RedactingFormatter.FORMAT % record.__dict__
         return formatted_msg
+
+
+def get_logger() -> logging.Logger:
+    logger = logging.Logger(name='user_data', level=logging.INFO)
+    stream_handler = logging.StreamHandler(sys.stdout)
+    formatter = RedactingFormatter(fields=PII_FIELDS)
+    stream_handler.setFormatter(formatter)
+    logger.addHandler(stream_handler)
+    return logger
