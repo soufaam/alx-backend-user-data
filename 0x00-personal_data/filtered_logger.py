@@ -57,6 +57,7 @@ class RedactingFormatter(logging.Formatter):
 
 
 def get_logger() -> logging.Logger:
+    """create Logger"""
     logger = logging.Logger(name='user_data', level=logging.INFO)
     stream_handler = logging.StreamHandler(sys.stdout)
     formatter = RedactingFormatter(fields=PII_FIELDS)
