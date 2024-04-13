@@ -60,7 +60,7 @@ class RedactingFormatter(logging.Formatter):
 def get_logger() -> logging.Logger:
     """create Logger"""
     logger = logging.getLogger('user_data')
-    logger.level = logging.INFO
+    logger.setLevel(logging.INFO)
     logger.propagate = False
     stream_handler = logging.StreamHandler()
     formatter = RedactingFormatter(fields=PII_FIELDS)
@@ -71,10 +71,9 @@ def get_logger() -> logging.Logger:
 
 def get_db() -> mysql.connector.connection.MySQLConnection:
     """function that returns a connector to the database """
-    conn = mysql.connector.connect(
-        host=os.getenv('PERSONAL_DATA_DB_HOST', 'localhost'),
+    return mysql.connector.connect(
         user=os.getenv('PERSONAL_DATA_DB_USERNAME', 'root'),
         password=os.getenv('PERSONAL_DATA_DB_PASSWORD', ''),
+        host=os.getenv('PERSONAL_DATA_DB_HOST', 'localhost'),
         database=os.getenv('PERSONAL_DATA_DB_NAME')
         )
-    return conn
