@@ -5,7 +5,8 @@ import re
 import logging
 import time
 import csv
-import sys
+import mysql.connector
+import os
 
 
 with open('user_data.csv') as csfile:
@@ -66,3 +67,14 @@ def get_logger() -> logging.Logger:
     stream_handler.setFormatter(formatter)
     logger.addHandler(stream_handler)
     return logger
+
+
+def get_db():
+    """function that returns a connector to the database """
+    conn = mysql.connector.connect(
+        host=os.getenv('PERSONAL_DATA_DB_HOST'),
+        user=os.getenv('PERSONAL_DATA_DB_USERNAME'),
+        password=os.getenv('PERSONAL_DATA_DB_PASSWORD'),
+        database=os.getenv('PERSONAL_DATA_DB_NAME')
+        )
+    return conn
