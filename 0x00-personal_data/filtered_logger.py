@@ -13,7 +13,7 @@ with open('user_data.csv') as csfile:
     fields = next(csvreader)
 
 
-fields.remove('name')
+fields.remove('ip')
 fields.remove('last_login')
 fields.remove('user_agent')
 PII_FIELDS = tuple(fields)
@@ -58,8 +58,8 @@ class RedactingFormatter(logging.Formatter):
 
 def get_logger() -> logging.Logger:
     """create Logger"""
-    logger = logging.Logger(name='user_data', level=logging.INFO)
-    stream_handler = logging.StreamHandler(sys.stdout)
+    logger = logging.Logger('user_data', level=logging.INFO)
+    stream_handler = logging.StreamHandler()
     formatter = RedactingFormatter(fields=PII_FIELDS)
     stream_handler.setFormatter(formatter)
     logger.addHandler(stream_handler)
