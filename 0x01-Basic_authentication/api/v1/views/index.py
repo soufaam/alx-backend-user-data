@@ -36,7 +36,7 @@ def unauthorized_route() -> None:
 
 
 @app_views.route('/forbidden/', strict_slashes=False)
-def unauthorized_route() -> None:
+def forbidden_route() -> None:
     """ GET /api/v1/forbidden
     Return:
       - the number of each objects
