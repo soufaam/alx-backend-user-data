@@ -26,10 +26,10 @@ def stats() -> str:
     return jsonify(stats)
 
 
-@app_views.route('/api/v1/unauthorized', strict_slashes=False)
+@app_views.route('/unauthorized/', strict_slashes=False)
 def unauthorized_route() -> str:
     """ GET /api/v1/unauthorized
     Return:
       - the number of each objects
     """
-    return  abort(401)
+    abort(401)
