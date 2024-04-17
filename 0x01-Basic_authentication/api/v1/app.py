@@ -16,8 +16,23 @@ auth = None
 auth_type = os.getenv('AUTH_TYPE')
 if auth_type == 'auth':
     from api.v1.auth.auth import Auth
-
     auth = Auth()
+
+
+@app.before_request
+def before_request_func():
+    """handler before_request"""
+    print("here 1")
+    if auth:
+        if auth.require_auth(request.path, [
+                '/api/v1/status/',
+                '/api/v1/unauthorized/',
+                '/api/v1/forbidden/']):
+            print('here 2', auth)
+            if auth.authorization_header(request) is None:
+                abort(401)
+            if auth.current_user(request) is None:
+                abort(403)
 
 
 @app.errorhandler(401)
