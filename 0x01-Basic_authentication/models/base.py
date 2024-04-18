@@ -135,3 +135,8 @@ class Base():
             return True
         
         return list(filter(_search, DATA[s_class].values()))
+
+    def current_user(self, request=None) -> TypeVar('User'):
+        """_summary_
+        """
+        
