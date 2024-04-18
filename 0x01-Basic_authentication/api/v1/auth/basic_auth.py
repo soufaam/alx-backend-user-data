@@ -67,7 +67,7 @@ class BasicAuth(Auth):
         Args:
             self (_type_): _description_
         """
-        if not user_email or not not isinstance(user_email, str):
+        if not user_email or not isinstance(user_email, str):
             return None
         if not user_pwd or not isinstance(user_pwd, str):
             return None
