@@ -7,6 +7,7 @@ from .auth import Auth
 import base64
 from models.user import User
 import uuid
+import os
 
 
 class SessionAuth(Auth):
