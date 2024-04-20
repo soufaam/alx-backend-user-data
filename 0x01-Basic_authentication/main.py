@@ -1,25 +1,14 @@
-#!/usr/bin/python3
-""" Check response
+#!/usr/bin/env python3
+""" Main 1
 """
+from api.v1.auth.auth import Auth
 
-if __name__ == "__main__":
-    from api.v1.auth.basic_auth import BasicAuth
+a = Auth()
 
-    ba = BasicAuth()
-    res1, res2 = ba.extract_user_credentials("Holberton:HBTN:iscool")
-    if res1 is None:
-        print("extract_user_credentials must return the first part of 'decoded_base64_authorization_header' (separated by ':')")
-        exit(1)
-    if res2 is None:
-        print("extract_user_credentials must return the last part of 'decoded_base64_authorization_header' (separated by ':')")
-        exit(1)
-
-    if res1 != "Holberton":
-        print("Wrong first part of 'decoded_base64_authorization_header': {}".format(res1))
-        exit(1)
-    print(res2)
-    if res2 != "HBTN:iscool":
-        print("Wrong second part of 'decoded_base64_authorization_header': {}".format(res1))
-        exit(1)
-    
-    print("OK", end="")
+print(a.require_auth(None, None))
+print(a.require_auth(None, []))
+print(a.require_auth("/api/v1/status/", []))
+print(a.require_auth("/api/v1/status/", ["/api/v1/status/"]))
+print(a.require_auth("/api/v1/status", ["/api/v1/status/"]))
+print(a.require_auth("/api/v1/users", ["/api/v1/status/"]))
+print(a.require_auth("/api/v1/users", ["/api/v1/status/", "/api/v1/stats"]))
