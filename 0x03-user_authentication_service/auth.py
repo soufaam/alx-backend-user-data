@@ -46,3 +46,14 @@ class Auth:
             return False
         fpassword = found_user.hashed_password
         return bcrypt.checkpw(password.encode("utf-8"), fpassword)
+
+    def create_session(self, email: str):
+        """returns the session ID as a string"""
+        try:
+            found_user = self._db.find_user_by(email=email)
+        except Exception:
+            return None
+        session_id = _generate_uuid()
+        found_user.session_id = session_id
+        self._db._session.commit()
+        return session_id
