@@ -10,7 +10,7 @@ app = Flask(__name__)
 @app.route("/", methods=["GET"])
 def root_():
     """root function"""
-    jsonify({"message": "Bienvenue"})
+    return jsonify({"message": "Bienvenue"})
 
 
 if __name__ == "__main__":
