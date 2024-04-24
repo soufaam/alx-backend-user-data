@@ -32,7 +32,7 @@ class DB:
             self.__session = DBSession()
         return self.__session
 
-    def add_user(self, email: str, hashed_password: str) -> TypeVar(User):
+    def add_user(self, email: str, hashed_password: str) -> User:
         """_summary_
 
         Args:
@@ -44,7 +44,7 @@ class DB:
         session.commit()
         return new_user
 
-    def find_user_by(self, **kwargs: dict) -> Optional:
+    def find_user_by(self, **kwargs: dict) -> User:
         """This method takes in arbitrary
         keyword arguments and returns the first
         row found in the users table"""
