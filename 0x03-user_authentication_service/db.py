@@ -5,8 +5,10 @@ from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm.session import Session
-from typing import TypeVar
+from typing import TypeVar, Optional
 from user import Base, User
+from sqlalchemy.exc import InvalidRequestError
+from sqlalchemy.orm.exc import NoResultFound
 
 
 class DB:
@@ -41,3 +43,19 @@ class DB:
         session.add(new_user)
         session.commit()
         return new_user
+
+    def find_user_by(self, **kwargs: dict) -> Optional:
+        """This method takes in arbitrary
+        keyword arguments and returns the first
+        row found in the users table"""
+        for key in kwargs.keys():
+            try:
+                getattr(User, key)
+            except AttributeError:
+                raise InvalidRequestError
+            result = self._session.query(User).filter(
+                User.email == kwargs[key]).first()
+            if result:
+                return result
+            else:
+                raise NoResultFound
