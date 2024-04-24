@@ -9,6 +9,7 @@ from typing import TypeVar, Optional
 from user import Base, User
 from sqlalchemy.exc import InvalidRequestError
 from sqlalchemy.orm.exc import NoResultFound
+import bcrypt
 
 
 class DB:
@@ -67,3 +68,4 @@ class DB:
                     raise ValueError
                 setattr(user, key, val)
             self.__session.commit()
+
