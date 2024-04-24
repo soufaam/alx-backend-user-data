@@ -55,3 +55,15 @@ class DB:
         except InvalidRequestError:
             raise
         return user
+
+    def update_user(self, user_id: int, **kwargs) -> None:
+        """method that takes as argument a required """
+        user = self.find_user_by(id=user_id)
+        if user:
+            for key, val in kwargs.items():
+                try:
+                    getattr(user, key)
+                except AttributeError:
+                    raise ValueError
+                setattr(user, key, val)
+            self.__session.commit()
