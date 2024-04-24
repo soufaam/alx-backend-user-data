@@ -48,14 +48,10 @@ class DB:
         """This method takes in arbitrary
         keyword arguments and returns the first
         row found in the users table"""
-        for key in kwargs.keys():
-            try:
-                getattr(User, key)
-            except AttributeError:
-                raise InvalidRequestError
-            result = self._session.query(User).filter(
-                User.email == kwargs[key]).first()
-            if result:
-                return result
-            else:
-                raise NoResultFound
+        try:
+            user = self._session.query(User).filter_by(**kwargs).one()
+        except NoResultFound:
+            raise
+        except InvalidRequestError:
+            raise
+        return user
