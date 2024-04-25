@@ -84,7 +84,7 @@ class Auth:
         try:
             new_user = self._db.find_user_by(email=email)
             reset_token = str(uuid.uuid4())
-            new_user.session_id = reset_token
+            new_user.reset_token = reset_token
             self._db._session.commit()
             return reset_token
         except Exception:
