@@ -57,3 +57,11 @@ class Auth:
         found_user.session_id = session_id
         self._db._session.commit()
         return session_id
+
+    def et_user_from_session_id(self, session_id: str):
+        """eturns the corresponding User or None"""
+        try:
+            found_user = self._db.find_user_by(session_id=session_id)
+            return found_user
+        except Exception:
+            return None
