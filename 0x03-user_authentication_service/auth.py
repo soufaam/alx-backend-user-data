@@ -96,6 +96,7 @@ class Auth:
             user = self._db.find_user_by(reset_token=reset_token)
             if user:
                 user.hashed_password = _hash_password(password=password)
+                user.reset_token = None
                 self._db._session.commit()
                 return None
         except Exception:
