@@ -70,7 +70,10 @@ class Auth:
 
     def destroy_session(self, user_id: int) -> None:
         """Destry session"""
-        user = self._db.find_user_by(user_id=user_id)
-        user.session_id = None
-        self._db._session.commit()
+        try:
+            user = self._db.find_user_by(user_id=user_id)
+            user.session_id = None
+            self._db._session.commit()
+        except Exception:
+            pass
         return None
