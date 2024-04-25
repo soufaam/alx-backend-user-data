@@ -52,7 +52,7 @@ def logout():
     abort(403)
 
 
-@app.get("/profile")
+@app.route("/profile", methods=['GET'])
 def profile():
     """profile"""
     session_id = request.cookies.get("session_id")
