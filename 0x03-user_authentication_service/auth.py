@@ -5,6 +5,7 @@ from db import DB
 from user import User
 from sqlalchemy.orm.exc import NoResultFound
 import uuid
+from typing import Optional
 
 
 def _hash_password(password: str) -> bytes:
@@ -78,7 +79,7 @@ class Auth:
             pass
         return None
 
-    def get_reset_password_token(self, email: str):
+    def get_reset_password_token(self, email: str) -> Optional[str]:
         """Reset password token"""
         try:
             new_user = self._db.find_user_by(email=email)
