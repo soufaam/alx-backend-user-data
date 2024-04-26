@@ -37,7 +37,6 @@ class Auth:
         except NoResultFound:
             hashed = _hash_password(password)
             new_user = self._db.add_user(email=email, hashed_password=hashed)
-            self._db._session.commit()
             return new_user
 
     def valid_login(self, email: str, password: str) -> bool:
@@ -56,8 +55,7 @@ class Auth:
         except Exception:
             return None
         session_id = _generate_uuid()
-        found_user.session_id = session_id
-        self._db._session.commit()
+        self._db.update_user(found_user.id, session_id=session_id)
         return session_id
 
     def get_user_from_session_id(self, session_id: str):
@@ -74,8 +72,7 @@ class Auth:
         """Destry session"""
         try:
             user = self._db.find_user_by(id=user_id)
-            user.session_id = None
-            self._db._session.commit()
+            self._db.update_user(user.id, session_id=None)
         except Exception:
             pass
         return None
@@ -85,8 +82,7 @@ class Auth:
         try:
             new_user = self._db.find_user_by(email=email)
             reset_token = str(uuid.uuid4())
-            new_user.reset_token = reset_token
-            self._db._session.commit()
+            self._db.update_user(new_user.id, reset_token=reset_token)
             return reset_token
         except Exception:
             raise ValueError
