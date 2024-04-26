@@ -37,6 +37,7 @@ class Auth:
         except NoResultFound:
             hashed = _hash_password(password)
             new_user = self._db.add_user(email=email, hashed_password=hashed)
+            self._db._session.commit()
             return new_user
 
     def valid_login(self, email: str, password: str) -> bool:
