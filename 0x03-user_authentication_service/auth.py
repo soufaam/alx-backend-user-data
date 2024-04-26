@@ -5,7 +5,10 @@ from db import DB
 from user import User
 from sqlalchemy.orm.exc import NoResultFound
 import uuid
-from typing import Optional
+from typing import Optional, TypeVar
+
+
+UserT = TypeVar("UserT", bound=User)
 
 
 def _hash_password(password: str) -> bytes:
@@ -58,7 +61,7 @@ class Auth:
         self._db.update_user(found_user.id, session_id=session_id)
         return session_id
 
-    def get_user_from_session_id(self, session_id: str):
+    def get_user_from_session_id(self, session_id: str) -> UserT:
         """eturns the corresponding User or None"""
         if not session_id:
             return None
